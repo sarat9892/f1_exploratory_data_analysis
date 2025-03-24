@@ -18,11 +18,13 @@ def dominant_driver_chart(data_frame):
 
     plot = figure(title="Dominant Drivers", x_axis_label="Season", y_axis_label="Races", frame_width=1000)
 
-    plot.vbar(x="years", top="race_count", legend_label="Number of Races", width=0.8, bottom=0, color="blue", source=source)
-    plot.vbar(x="years", top="win_count", legend_label="Number of Wins", width=0.8, bottom=0, color="red", source=source)
+    race_bar = plot.vbar(x="years", top="race_count", legend_label="Number of Races", width=0.8, bottom=0, color="blue", source=source)
+    win_bar = plot.vbar(x="years", top="win_count", legend_label="Number of Wins", width=0.8, bottom=0, color="red", source=source)
 
-    plot.add_tools(HoverTool(tooltips=[("World Champion", "@world_champion"),
-                                       ("Driver With Most Wins", "@max_winning_drivers")]))
+    tooltip = HoverTool()
+    tooltip.tooltips = [("World Champion", "@world_champion"), ("Driver With Most Wins", "@max_winning_drivers")]
+    tooltip.renderers = [race_bar]
+    plot.add_tools(tooltip)
 
     plot.legend.location = "top_left"
 
